@@ -26,34 +26,35 @@ INSERT INTO nmap_results(
 VALUES(:ip_address,:ip_type,:hostname,:port_id,:port_protocol,:state,:reason,:reason_ttl,:service_name,:service_method,:service_conf)
 """
 
+SQL_DELETE_RECORDS = """
+DELETE FROM nmap_results;
+"""
+
 
 def create_database():
-    conn = sqlite3.connect('bishopfox.db')
-    c = conn.cursor()
+    connection = sqlite3.connect('bishopfox.db')
+    return connection
 
+
+def spin_up_tables(db_connection):
     # Create table
-    c.execute(SQL_CREATE_NMAP_RESULTS_TABLE)
-
-    # Save (commit) the changes
-    conn.commit()
-
-    # We can also close the connection if we are done with it.
-    # Just be sure any changes have been committed or they will be lost.
-    conn.close()
+    with db_connection:
+        db_connection.execute(SQL_CREATE_NMAP_RESULTS_TABLE)
 
 
-def insert_nmap_result(nmap_result):
-    conn = sqlite3.connect('bishopfox.db')
-    c = conn.cursor()
-    c.execute(SQL_INSERT_RECORD, nmap_result)
-    conn.commit()
-    conn.close()
+def insert_nmap_result(nmap_result, db_connection):
+    with db_connection:
+        db_connection.execute(SQL_INSERT_RECORD, nmap_result)
 
 
-def get_nmap_results():
-    conn = sqlite3.connect('bishopfox.db')
-    c = conn.cursor()
-    c.execute("SELECT * from nmap_results")
-    results = c.fetchall()
-    conn.close()
+def get_nmap_results(db_connection):
+    with db_connection:
+        cursor = db_connection.cursor()
+        cursor.execute("SELECT * from nmap_results")
+        results = cursor.fetchall()
     return results
+
+
+def delete_records(db_connection):
+    with db_connection:
+        db_connection.execute(SQL_DELETE_RECORDS)
