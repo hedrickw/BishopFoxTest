@@ -1,0 +1,5 @@
+{
+    "DATABASE_FILE": "bishopfox.sqlite",
+    "SQLALCHEMY_DATABASE_URI": "sqlite:///bishopfox.sqlite",
+    "SQLALCHEMY_TRACK_MODIFICATIONS": false
+}

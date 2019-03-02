@@ -1,30 +1,59 @@
-import tornado.ioloop
-import tornado.web
-from nmap_import import NMapImportHandler
-from results import ResultsHandler
-from db import create_database
-from db import spin_up_tables
-import argparse
+"""Module that runs application for uploading nmap files and viewing the results."""
+from flask import Flask, render_template, url_for, redirect, request
+from flask_sqlalchemy import SQLAlchemy
+from load_nmap_results import parse_nmap_xml_file
+
+app = Flask(__name__)
+app.config.from_json("config.json")
+db = SQLAlchemy(app)
 
 
-def make_app():
-    return tornado.web.Application([
-        (r"/import_extract", NMapImportHandler),
-        (r"/results", ResultsHandler)
-    ])
+class ExtractResults(db.Model):
+    """Class Reperesenting database table that stores parsed namp results."""
+
+    __table_args__ = (
+        db.UniqueConstraint('ip_address', 'port_id', name='unique_ip_address_to_port'),
+    )
+
+    result_id = db.Column(db.Integer, primary_key=True)
+    ip_address = db.Column(db.String(255))
+    ip_type = db.Column(db.String(255))
+    hostname = db.Column(db.String(255))
+    port_id = db.Column(db.String(255))
+    port_protocol = db.Column(db.String(255))
+    state = db.Column(db.String(255))
+    reason = db.Column(db.String(255))
+    reason_ttl = db.Column(db.String(255))
+    service_name = db.Column(db.String(255))
+    service_method = db.Column(db.String(255))
+    service_conf = db.Column(db.String(255))
+
+
+
+@app.route('/results')
+def results():
+    """Return nmap file results."""
+    results = ExtractResults.query.all()
+    return render_template('results.html', results=results)
+
+
+@app.route('/load_file', methods=['GET'])
+def get():
+    """Return Page to allow user to upload a nmap extract file."""
+    return render_template('load_file.html')
+
+
+@app.route('/load_file', methods=['POST'])
+def post():
+    """From a nmap file uploaded, parse the file and redirect to results page."""
+    file = request.files["extract_file"]
+    with db.engine.connect() as db_conn:
+        db_conn.execute("DELETE FROM extract_results")
+        parse_nmap_xml_file(file.stream, db_conn)
+    return redirect(url_for('results'))
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--port', default=8080, type=int,
-                        help="Port to run app on")
-    parser.add_argument('--create-tables', default=False, type=bool,
-                        help="Flag for creating the database")
-
-    args = vars(parser.parse_args())
-    app = make_app()
-    app.db_connection = create_database()
-    if args["create_tables"]:
-        spin_up_tables(app["db_connection"])
-    app.listen(args["port"])
-    tornado.ioloop.IOLoop.current().start()
+    db.drop_all()
+    db.create_all()
+    app.run(debug=True)
