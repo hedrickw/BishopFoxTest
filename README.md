@@ -12,5 +12,3 @@ How To Use
 
 1. Clone the repository from master branch and save it to your local disk.
 2. Run python3.6 -m pip install -r requirements.txt to install required modules
-3. 
-4. Build the solution and allow nuget to restore all the packages.
