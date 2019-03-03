@@ -61,7 +61,7 @@ http://localhost:5000
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
 ## File Format Choice Reasoning
 I chose the XML file format due to its ease of use with the python language. There was no extra work required to figure out how to parse the file since the structure of the file was already predefined.
