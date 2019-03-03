@@ -34,40 +34,14 @@
     </nav>
     <br>
     <br>
-    <table class="table table-dark" , id="results">
-        <thead>
-            <tr>
-                <th scope="col">IP Address</th>
-                <th scope="col">IP Type</th>
-                <th scope="col">Hostname</th>
-                <th scope="col">Port Id</th>
-                <th scope="col">Protocol</th>
-                <th scope="col">State</th>
-                <th scope="col">Reason</th>
-                <th scope="col">Reason TTL</th>
-                <th scope="col">Service Name</th>
-                <th scope="col">Service Method</th>
-                <th scope="col">Service Configuration</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in results%}
-            <tr>
-                <th scope="row">{{item.ip_address}}</th>
-                <td>{{item.ip_type}}</td>
-                <td>{{item.hostname}}</td>
-                <td>{{item.port_id}}</td>
-                <td>{{item.port_protocol}}</td>
-                <td>{{item.state}}</td>
-                <td>{{item.reason}}</td>
-                <td>{{item.reason_ttl}}</td>
-                <td>{{item.service_name}}</td>
-                <td>{{item.service_method}}</td>
-                <td>{{item.service_conf}}</td>
-                {% endfor %}
-        </tbody>
-    </table>
 
+    <div class="jumbotron">
+            <h1 class="display-4">Nmap File Import</h1>
+            <p class="lead">This is a simple application that allows uploading of nmap xml file and shows the parsed results in a table view</p>
+            <hr class="my-4">
+            <p>It is built using Python,Flask Framework, Bootstrap and Sqlite</p>
+            <a class="btn btn-primary btn-lg" href="file_upload" role="button">Upload File</a>
+          </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

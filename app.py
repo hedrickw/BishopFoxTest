@@ -29,6 +29,11 @@ class ExtractResults(db.Model):
     service_conf = db.Column(db.String(255))
 
 
+@app.route('/')
+def homepage():
+    """Return homepage of the application."""
+    return render_template('homepage.html')
+
 
 @app.route('/results')
 def results():
