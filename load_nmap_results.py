@@ -2,6 +2,7 @@
 import sqlite3
 import xml.etree.ElementTree as element_tree
 import argparse
+import json
 
 SQL_INSERT_RECORD = """
 INSERT INTO extract_results(
@@ -109,10 +110,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--nmap-file', required=True,
                         help="Path to nmap xml extract")
-    parser.add_argument('--db-file', required=True,
-                        help="Path to database file")
 
     args = vars(parser.parse_args())
-    db_connection = connection = sqlite3.connect(args["db_file"])
+    config = json.loads("config.json")
+    db_connection = sqlite3.connect(config["DATABASE_FILE"])
     with db_connection as db_conn:
         parse_nmap_xml_file(args["nmap_file"], db_connection)

@@ -34,13 +34,18 @@
     </nav>
     <br>
     <br>
-    
+
     <form action="/submit_file" method="post" enctype="multipart/form-data">
-        <div class="form-group">
-            <label for="exampleFormControlFile1">Upload Nmap Result File</label>
-            <input type="file" class="form-control-file" name="extract_file">
+        <div class="container-fluid">
+            <fieldset>
+                <legend>Upload Nmap Results XML File</legend>
+                <input type="file" class="form-control-file" name="extract_file">
+                <br>
+                <button type="submit" class="btn btn-primary">Upload</button>
+            </fieldset>
+            
         </div>
-        <button type="submit" class="btn btn-primary">Upload</button>
+
     </form>
 
 

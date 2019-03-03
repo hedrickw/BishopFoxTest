@@ -1,4 +1,4 @@
-"""Module that runs application for uploading nmap files and viewing the results."""
+"""Module that runs application for uploading nmap result files and viewing the parsed results."""
 from flask import Flask, render_template, url_for, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from load_nmap_results import parse_nmap_xml_file
@@ -9,7 +9,7 @@ db = SQLAlchemy(app)
 
 
 class ExtractResults(db.Model):
-    """Class Reperesenting database table that stores parsed namp results."""
+    """Class Reperesenting database table that stores parsed nmap results."""
 
     __table_args__ = (
         db.UniqueConstraint('ip_address', 'port_id', name='unique_ip_address_to_port'),
@@ -44,14 +44,18 @@ def results():
 
 @app.route('/file_upload', methods=['GET'])
 def get():
-    """Return Page to allow user to upload a nmap extract file."""
+    """Return Page to allow user to upload a nmap results file."""
     return render_template('load_file.html')
 
 
 @app.route('/submit_file', methods=['POST'])
 def post():
     """From a nmap file uploaded, parse the file and redirect to results page."""
+    if not request.files:
+        raise Exception("No file uploaded")
     file = request.files["extract_file"]
+    if file.mimetype not in ('text/xml'):
+        raise Exception("File uploaded must be an xml file")
     with db.engine.connect() as db_conn:
         db_conn.execute("DELETE FROM extract_results")
         parse_nmap_xml_file(file.stream, db_conn)
