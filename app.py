@@ -37,13 +37,13 @@ def results():
     return render_template('results.html', results=results)
 
 
-@app.route('/load_file', methods=['GET'])
+@app.route('/file_upload', methods=['GET'])
 def get():
     """Return Page to allow user to upload a nmap extract file."""
     return render_template('load_file.html')
 
 
-@app.route('/load_file', methods=['POST'])
+@app.route('/submit_file', methods=['POST'])
 def post():
     """From a nmap file uploaded, parse the file and redirect to results page."""
     file = request.files["extract_file"]
