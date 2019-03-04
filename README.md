@@ -61,8 +61,8 @@ This will print the parsed file results to stdout.
 
 ## Built With
 
-* Flask - The web framework used
-* sqlite - Database system used
+* Flask - The web framework used - http://flask.pocoo.org/
+* sqlite - Database system used - https://www.sqlite.org/index.html
 * Flask-SqlAlchemy - ORM framework used - http://flask-sqlalchemy.pocoo.org/2.3/
 
 # Authors
