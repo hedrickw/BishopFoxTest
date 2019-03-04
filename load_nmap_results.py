@@ -1,8 +1,6 @@
 """Module that handles extracting nmap results from nmap xml file."""
-import sqlite3
 import xml.etree.ElementTree as element_tree
 import argparse
-import json
 
 SQL_INSERT_RECORD = """
 INSERT INTO extract_results(
@@ -32,12 +30,13 @@ VALUES(:ip_address,
 """
 
 
-def insert_nmap_result(nmap_result, db_connection):
+def insert_nmap_result(results, db_connection):
     """Insert nmap result records into database."""
-    db_connection.execute(SQL_INSERT_RECORD, nmap_result)
+    for result in results:
+        db_connection.execute(SQL_INSERT_RECORD, result)
 
 
-def parse_nmap_xml_file(xml_file, db_connection):
+def parse_nmap_xml_file(xml_file):
     """Parse nmap xml file.
 
     1. First we need to parse the file and find all the hosts we ran against
@@ -62,7 +61,7 @@ def parse_nmap_xml_file(xml_file, db_connection):
             map_ip_address_info(address, nmap_store),
             map_hostname_info(hostname, nmap_store),
             map_port_info(port, nmap_store)
-            insert_nmap_result(nmap_store, db_connection)
+            yield nmap_store
 
 
 def map_ip_address_info(address, nmap_store):
@@ -112,7 +111,6 @@ if __name__ == "__main__":
                         help="Path to nmap xml extract")
 
     args = vars(parser.parse_args())
-    config = json.loads("config.json")
-    db_connection = sqlite3.connect(config["DATABASE_FILE"])
-    with db_connection as db_conn:
-        parse_nmap_xml_file(args["nmap_file"], db_connection)
+    output = parse_nmap_xml_file(args["nmap_file"])
+    for row in output:
+        print(row)

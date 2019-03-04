@@ -1,7 +1,7 @@
 """Module that runs application for uploading nmap result files and viewing the parsed results."""
 from flask import Flask, render_template, url_for, redirect, request
 from flask_sqlalchemy import SQLAlchemy
-from load_nmap_results import parse_nmap_xml_file
+from load_nmap_results import parse_nmap_xml_file, insert_nmap_result
 
 app = Flask(__name__)
 app.config.from_json("config.json")
@@ -44,7 +44,7 @@ def results():
 
 @app.route('/file_upload', methods=['GET'])
 def get():
-    """Return Page to allow user to upload a nmap results file."""
+    """Return page that allows user to upload a nmap results file."""
     return render_template('load_file.html')
 
 
@@ -58,7 +58,8 @@ def post():
         raise Exception("File uploaded must be an xml file")
     with db.engine.connect() as db_conn:
         db_conn.execute("DELETE FROM extract_results")
-        parse_nmap_xml_file(file.stream, db_conn)
+        results = parse_nmap_xml_file(file.stream)
+        insert_nmap_result(results, db_conn)
     return redirect(url_for('results'))
 
 
