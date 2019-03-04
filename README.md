@@ -36,7 +36,7 @@ Install python modules needed for the application, these are defined in the [req
 python3.6 -m pip install -r requirements.txt --user
 ```
 
-## Running the applications
+## Running the Applications
 
 ### Web Application
 Start up application by running app.py.
@@ -80,6 +80,6 @@ I chose the XML file format due to its ease of use with the python language. The
 ## Assumptions
 1. Number of hostnames per host is less than two.
 2. Application is allowed to run in debug mode to ignore Cross Site Scripting management.
-3. File upload records do not need to be saved, records are purged every upload and on application restart.
+3. Uploaded records do not need to be saved, records are purged every upload and on application restart.
 4. Port 5000 is allowed to be used to run the application.
 5. Size of the files uploaded are not very large.
