@@ -81,5 +81,4 @@ I chose the XML file format due to its ease of use with the python language. The
 1. Number of hostnames per host is less than two.
 2. Application is allowed to run in debug mode to ignore Cross Site Scripting management.
 3. Uploaded records do not need to be saved, records are purged every upload and on application restart.
-4. Port 5000 is allowed to be used to run the application.
-5. Size of the files uploaded are not very large.
+4. Size of the files uploaded are not very large.
