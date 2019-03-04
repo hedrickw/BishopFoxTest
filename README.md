@@ -1,6 +1,6 @@
-# BishopFox Project
+# BishopFox Interview Project
 
-Simple web application that allows a single nmap result file to be uploaded, parsed and show in a web view
+Simple web application that allows a single nmap xml result file to be uploaded, parsed and shown in a web view
 
 ## Getting Started
 
@@ -10,43 +10,44 @@ These instructions will get you a copy of the project up and running on your loc
 
 OS Supported
 ```
-Mac OS 
-Ubuntu 16.04
+Mac OS version 10.14
+Ubuntu version 16.04
 ```
 Python Version Supported
 ```
-python3.6
+Python 3.6
 ```
 ### Installing
 
-Clone repo to local computer
+Clone repository to local computer.
 
 ```
 git clone https://github.com/hedrickw/BishopFoxTest.git
 ```
 
-Change directory to BishopFoxTest
+Change directory to BishopFoxTest.
 ```
 cd BishopFoxTest
 ```
 
-Install python modules needed for the application defined in the requirements file
+Install python modules needed for the application, these are defined in the [requirements.txt](requirements.txt) file.
 
 ```
 python3.6 -m pip install -r requirements.txt --user
 ```
 
 ## Running the application
-Start up application by running app.py
+Start up application by running app.py.
 ```
 python3.6 app.py
 ```
 
-Open browser of your choice go to url listed below
+Open browser of your choice go to url listed below.
 
 ```
 http://localhost:5000
 ```
+This will the display application home page which can guide you to file upload and results pages.
 
 ## Built With
 
@@ -61,13 +62,14 @@ http://localhost:5000
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## File Format Choice Reasoning
-I chose the XML file format due to its ease of use with the python language. There was no extra work required to figure out how to parse the file since the structure of the file was already predefined.
+I chose the XML file format due to its ease of use with the python language. There is support for parsing xml files and strings in the standard libary of python.
 
 ## Assumptions
-1. Number of hostnames per host is less than two
-2. Every upload removes the previous records uploaded
-3. All calls could be synchronous
-4. Port running on does not need to be configurable 
+1. Number of hostnames per host is less than two.
+2. Application is allowed to run in debug mode to ignore Cross Site Scripting management.
+3. File upload records do not need to be saved, records are purged every upload and application restart.
+4. Port 5000 is allowed to be used to run the application.
+5. Size of the files uploaded are not very large.
