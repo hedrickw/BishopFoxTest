@@ -47,7 +47,7 @@ def parse_nmap_xml_file(xml_file):
     1. First we need to parse the file and find all the hosts we ran against
     2. Find the IP address associated with the host
     3. Find the hostname associated with the host
-    4. Find the times we ran the scan 
+    4. Find the times we ran the scan
     5. Find all the ports we ran the scan against
     6. For each port we found
        a. Create an empty dictionary which will serve as database record
@@ -72,14 +72,14 @@ def parse_nmap_xml_file(xml_file):
 
 
 def map_ip_address_info(address, nmap_store):
-    """Map IP address details to database record."""
+    """Map IP address details to the database record."""
     nmap_store["ip_address"] = address.get("addr")
     nmap_store["ip_type"] = address.get('addrtype')
     return nmap_store
 
 
 def map_hostname_info(hostname, nmap_store):
-    """Map hostname if there is one to database record."""
+    """Map hostname if there is one to the database record."""
     if hostname is not None:
         nmap_store["hostname"] = hostname.get('name')
         return nmap_store
@@ -88,13 +88,13 @@ def map_hostname_info(hostname, nmap_store):
 
 
 def map_scan_time(time, nmap_store):
-    """Map start and stop times for the scan on related ip_address."""
+    """Map start and stop times for the scan."""
     nmap_store["start_time"] = datetime.datetime.fromtimestamp(int(time.get('starttime')))
     nmap_store["stop_time"] = datetime.datetime.fromtimestamp(int(time.get('endtime')))
 
 
 def map_port_info(port, nmap_store):
-    """Map port, state and service details to database record."""
+    """Map port, state and service details to the database record."""
     nmap_store["port_id"] = port.get("portid")
     nmap_store["port_protocol"] = port.get("protocol")
     map_state_info(port, nmap_store)
@@ -103,7 +103,7 @@ def map_port_info(port, nmap_store):
 
 
 def map_state_info(port, nmap_store):
-    """Map state details found in port element to database record."""
+    """Map state details found in port element to the database record."""
     state = port.find("state")
     nmap_store["state"] = state.get("state")
     nmap_store["reason"] = state.get("reason")
@@ -111,7 +111,7 @@ def map_state_info(port, nmap_store):
 
 
 def map_service_info(port, nmap_store):
-    """Map service details found in port element to database record."""
+    """Map service details found in port element to the database record."""
     service = port.find("service")
     nmap_store["service_name"] = service.get("name")
     nmap_store["service_method"] = service.get("method")
