@@ -1,6 +1,7 @@
 """Module that handles extracting nmap results from nmap xml file."""
 import xml.etree.ElementTree as element_tree
 import argparse
+import datetime
 
 SQL_INSERT_RECORD = """
 INSERT INTO extract_results(
@@ -14,7 +15,9 @@ INSERT INTO extract_results(
     reason_ttl,
     service_name,
     service_method,
-    service_conf
+    service_conf,
+    start_time,
+    stop_time
 )
 VALUES(:ip_address,
        :ip_type,
@@ -26,7 +29,9 @@ VALUES(:ip_address,
        :reason_ttl,
        :service_name,
        :service_method,
-       :service_conf)
+       :service_conf,
+       :start_time,
+       :stop_time)
 """
 
 
@@ -42,13 +47,14 @@ def parse_nmap_xml_file(xml_file):
     1. First we need to parse the file and find all the hosts we ran against
     2. Find the IP address associated with the host
     3. Find the hostname associated with the host
-    4. Find all the ports we ran the scan against
-    5. For each port we found
+    4. Find the times we ran the scan 
+    5. Find all the ports we ran the scan against
+    6. For each port we found
        a. Create an empty dictionary which will serve as database record
        b. Map IP address details to dictionary
        c. Map hostname details to dictionary
        d. Map port, state and service details to dictionary
-    6. Insert new record into db
+    7. yield generator to be used later
     """
     root = element_tree.parse(xml_file)
     hosts = root.findall("host")
@@ -60,6 +66,7 @@ def parse_nmap_xml_file(xml_file):
             nmap_store = {}
             map_ip_address_info(address, nmap_store),
             map_hostname_info(hostname, nmap_store),
+            map_scan_time(host, nmap_store)
             map_port_info(port, nmap_store)
             yield nmap_store
 
@@ -78,6 +85,12 @@ def map_hostname_info(hostname, nmap_store):
         return nmap_store
     nmap_store["hostname"] = None
     return nmap_store
+
+
+def map_scan_time(time, nmap_store):
+    """Map start and stop times for the scan on related ip_address."""
+    nmap_store["start_time"] = datetime.datetime.fromtimestamp(int(time.get('starttime')))
+    nmap_store["stop_time"] = datetime.datetime.fromtimestamp(int(time.get('endtime')))
 
 
 def map_port_info(port, nmap_store):

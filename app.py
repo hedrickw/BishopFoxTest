@@ -27,6 +27,8 @@ class ExtractResults(db.Model):
     service_name = db.Column(db.String(255))
     service_method = db.Column(db.String(255))
     service_conf = db.Column(db.String(255))
+    start_time = db.Column(db.DateTime)
+    stop_time = db.Column(db.DateTime)
 
 
 @app.route('/')
