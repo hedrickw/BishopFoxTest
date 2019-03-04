@@ -9,7 +9,8 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='search.css') }}">
 
 </head>
 
@@ -20,6 +21,7 @@
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
@@ -34,6 +36,24 @@
     </nav>
     <br>
     <br>
+    <form id="searchForm">
+        <div class="container-fluid">
+            <div class="row">
+                <div id="custom-search-input">
+                    <div class="input-group col-md-12">
+                        <input type="text" class=" search-query form-control" name="ip_search" placeholder="Search For an IP" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-danger" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <br>
+
     <div class="container-fluid">
         <table class="table table-striped table-bordered" id="results">
             <thead class="thead-dark">

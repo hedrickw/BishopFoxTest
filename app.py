@@ -40,7 +40,12 @@ def homepage():
 @app.route('/results')
 def results():
     """Return nmap file results."""
-    results = ExtractResults.query.all()
+    ip_address = request.args.get("ip_search")
+    if ip_address:
+        results = ExtractResults.query.filter(
+            ExtractResults.ip_address.like(f'{ip_address}%'))
+    else:
+        results = ExtractResults.query.all()
     return render_template('results.html', results=results)
 
 
@@ -55,9 +60,11 @@ def post():
     """From a nmap file uploaded, parse the file and redirect to results page."""
     if not request.files:
         raise Exception("No file uploaded")
+
     file = request.files["extract_file"]
     if file.mimetype not in ('text/xml'):
         raise Exception("File uploaded must be an xml file")
+
     with db.engine.connect() as db_conn:
         db_conn.execute("DELETE FROM extract_results")
         results = parse_nmap_xml_file(file.stream)
