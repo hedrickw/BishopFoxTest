@@ -38,7 +38,7 @@ python3.6 -m pip install -r requirements.txt --user
 
 ## Running the applications
 
-###Web Application
+### Web Application
 Start up application by running app.py.
 ```
 python3.6 app.py
@@ -51,7 +51,7 @@ http://localhost:5000
 ```
 This will the display application home page which can guide you to file upload and results pages.
 
-###File Parser
+### File Parser
 In BishopFoxTest directory, run load_nmap_results.py
 ```
 python3.6 load_nmap_results.py --nmap-file nmap.results.xml 
