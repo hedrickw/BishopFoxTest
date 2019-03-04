@@ -33,7 +33,7 @@ cd BishopFoxTest
 Install python modules needed for the application, these are defined in the [requirements.txt](requirements.txt) file.
 
 ```
-python3.6 -m pip install -r requirements.txt --user
+python -m pip install -r requirements.txt --user
 ```
 
 ## Running the Applications
@@ -41,7 +41,7 @@ python3.6 -m pip install -r requirements.txt --user
 ### Web Application
 Start up application by running app.py.
 ```
-python3.6 app.py
+python app.py
 ```
 
 Open browser of your choice go to url listed below.
@@ -54,7 +54,7 @@ This will the display application home page which can guide you to file upload a
 ### File Parser
 In BishopFoxTest directory, run load_nmap_results.py
 ```
-python3.6 load_nmap_results.py --nmap-file nmap.results.xml 
+python load_nmap_results.py --nmap-file nmap.results.xml 
 ```
 
 This will print the parsed file results to stdout.
